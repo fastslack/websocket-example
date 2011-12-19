@@ -3,7 +3,7 @@
 /**
  * @version       $Id: 
  * @package       Matware
- * @subpackage    ExampleWebSocket
+ * @subpackage    WebSocketExample
  * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
  * @author        Matias Aguirre
  * @email         maguirre@matware.com.ar
@@ -15,7 +15,7 @@ define( '_JEXEC', 1 );
 // Bootstrap the application.
 require '../bootstrap.php';
 
-final class ExampleWebSocket extends JCli implements JWebSocketController 
+final class WebSocketExample extends JCli implements JWebSocketController 
 {
 	/**
 	* Address
@@ -51,7 +51,7 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function __construct()
 	{
@@ -63,7 +63,7 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 			// Pass an array of configuration options
 			array(
 				// Set the name of the log file
-				'text_file' => JPATH_SITE.'/cli/example_websocket.log.php'
+				'text_file' => JPATH_SITE.'/logs/websocket_example.log.php'
 			)
 		);
 
@@ -116,11 +116,11 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 		switch($data) {
 			case "test":
 				// Log
-				JLog::add("test", JLog::INFO, 'ExampleWebSocket');
+				JLog::add("test", JLog::INFO, 'WebSocketExample');
 				return "test";
 			case "version":
 				// Log
-				JLog::add("version", JLog::INFO, 'ExampleWebSocket');
+				JLog::add("version", JLog::INFO, 'WebSocketExample');
 				return JPlatform::getLongVersion();
 			default:
 				return "Command not found\n";
@@ -136,7 +136,7 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 		// Stdin output
 		$this->out($message);
 		// Log
-		JLog::add($message, JLog::INFO, 'ExampleWebSocket');
+		JLog::add($message, JLog::INFO, 'WebSocketExample');
 	}
 
 	/**
@@ -148,7 +148,7 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 		// Stdin output
 		$this->out($message);
 		// Log
-		JLog::add($message, JLog::INFO, 'ExampleWebSocket');
+		JLog::add($message, JLog::INFO, 'WebSocketExample');
 	}
 
 	/**
@@ -168,7 +168,7 @@ try
 {
 	// Instantiate the application object, passing the class name to JCli::getInstance
 	// and use chaining to execute the application.
-	JCli::getInstance('ExampleWebSocket')->execute();
+	JCli::getInstance('WebSocketExample')->execute();
 }
 catch (Exception $e)
 {
