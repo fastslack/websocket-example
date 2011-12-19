@@ -1,0 +1,178 @@
+#!/usr/bin/php
+<?php
+/**
+ * @version       $Id: 
+ * @package       Matware
+ * @subpackage    ExampleWebSocket
+ * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
+ * @author        Matias Aguirre
+ * @email         maguirre@matware.com.ar
+ * @link          http://www.matware.com.ar/
+ * @license       GNU/GPL http://www.gnu.org/licenses/gpl-2.0-standalone.html
+ */
+define( '_JEXEC', 1 );
+
+// Bootstrap the application.
+require '../bootstrap.php';
+
+final class ExampleWebSocket extends JCli implements JWebSocketController 
+{
+	/**
+	* Address
+	*
+	* @var char
+	* @since 11.3
+	*/
+	public $address = '192.168.1.226';
+	/**
+	* Port
+	*
+	* @var char
+	* @since 11.3
+	*/
+	public $port = 8080;
+	/**
+	* A database object for the application to use.
+	*
+	* @var JDatabase
+	* @since 11.3
+	*/
+	protected $dbo = null;
+	/**
+	* A protocol object
+	*
+	* @var JDatabase
+	* @since 11.3
+	*/
+	private $_protocol;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function __construct()
+	{
+		// Call the parent __construct method so it bootstraps the application class.
+		parent::__construct();
+
+		// Add the logger.
+		JLog::addLogger(
+			// Pass an array of configuration options
+			array(
+				// Set the name of the log file
+				'text_file' => JPATH_SITE.'/cli/example_websocket.log.php'
+			)
+		);
+
+		// Init database
+		jimport( 'joomla.database.database' );
+		$config = 			array(
+			'driver' => $this->get('dbtype'),
+			'host' => $this->get('host'),
+			'user' => $this->get('user'),
+			'password' => $this->get('password'),
+			'database' => $this->get('db'),
+			'prefix' => $this->get('dbprefix')
+		);
+		$this->dbo = JDatabase::getInstance($config);
+	}
+
+	/**
+	 * Execute the application.
+	 *
+	 * The 'execute' method is the entry point for a command line application.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  RuntimeException
+	 */
+	public function doExecute()
+	{
+		// Send a string to standard output.
+		$this->out('Starting server...');
+
+		// Start the server
+		JWebSocket::getInstance($this)->start();
+	}
+
+	/**
+	 * Called whenever there is a message from a client
+	 * $msg is an array with the following structure
+	 *  Array {
+	 * 		'size': The size in bytes of the data frame
+	 * 		'frame': A buffer containing the data received
+	 * 		'binary': boolean indicator true is frame is binary false if frame is utf8
+	 *  }
+	 */
+	function onMessage($msg)
+	{
+		$size = $msg['size'];
+		$data = $msg['frame'];
+
+    switch($data) {
+      case "test":
+				// Log
+				JLog::add("test", JLog::INFO, 'ExampleWebSocket');
+				return "test";
+      case "version":
+				// Log
+				JLog::add("version", JLog::INFO, 'ExampleWebSocket');
+        return JPlatform::getLongVersion();
+			default:
+				return "Command not found\n";
+    }
+	}
+
+	/**
+	 * Called when the client closes connection
+	 */
+	function onClose()
+	{
+		$message = 'Socket connection closing.';
+		// Stdin output
+		$this->out($message);
+		// Log
+		JLog::add($message, JLog::INFO, 'ExampleWebSocket');
+	}
+
+	/**
+	 * Called in the event of an error.
+	 */
+	function onError($err)
+	{
+		$message = 'Socket error.';
+		// Stdin output
+		$this->out($message);
+		// Log
+		JLog::add($message, JLog::INFO, 'ExampleWebSocket');
+	}
+
+	/**
+	 * Set the set the Websocket protocol class
+	 * over which this application is being called
+	 * This is needed for the application to send data back
+	 * to the client
+	 */
+	function setProtocol(JWebSocketProtocol $protocol)
+	{
+		$this->_protocol = $protocol;
+	}
+} // end class
+
+// Wrap the execution in a try statement to catch any exceptions thrown anywhere in the script.
+try
+{
+	// Instantiate the application object, passing the class name to JCli::getInstance
+	// and use chaining to execute the application.
+	JCli::getInstance('ExampleWebSocket')->execute();
+}
+catch (Exception $e)
+{
+	// An exception has been caught, just echo the message.
+	fwrite(STDOUT, $e->getMessage() . "\n");
+	exit($e->getCode());
+}
