@@ -23,7 +23,7 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 	* @var char
 	* @since 11.3
 	*/
-	public $address = '192.168.1.226';
+	public $address = '0.0.0.0';
 	/**
 	* Port
 	*
@@ -113,18 +113,18 @@ final class ExampleWebSocket extends JCli implements JWebSocketController
 		$size = $msg['size'];
 		$data = $msg['frame'];
 
-    switch($data) {
-      case "test":
+		switch($data) {
+			case "test":
 				// Log
 				JLog::add("test", JLog::INFO, 'ExampleWebSocket');
 				return "test";
-      case "version":
+			case "version":
 				// Log
 				JLog::add("version", JLog::INFO, 'ExampleWebSocket');
-        return JPlatform::getLongVersion();
+				return JPlatform::getLongVersion();
 			default:
 				return "Command not found\n";
-    }
+		}
 	}
 
 	/**
