@@ -117,7 +117,7 @@ final class WebSocketExample extends JCli implements JWebSocketController
 			case "test":
 				// Log
 				JLog::add("test", JLog::INFO, 'WebSocketExample');
-				return "test";
+				return "This is a test!";
 			case "version":
 				// Log
 				JLog::add("version", JLog::INFO, 'WebSocketExample');
