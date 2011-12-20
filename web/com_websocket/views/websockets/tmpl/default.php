@@ -12,8 +12,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
  
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+// Load mootools behavior
+JHtml::_('behavior.mootools');
 
 // get document to add scripts
 $document	= JFactory::getDocument();
@@ -24,7 +24,6 @@ $document->addScript('components/com_websocket/js/websocket.js');
 		Socket = new WebSocketConnector();
 	});
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_websocket'); ?>" method="post" name="adminForm">
 <table class="adminlist" border="0">
 <tr>
 	<td>
@@ -55,4 +54,3 @@ $document->addScript('components/com_websocket/js/websocket.js');
 	</td>
 </tr>
 </table>
-</form>
