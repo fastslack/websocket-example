@@ -67,17 +67,24 @@ final class WebSocketExample extends JCli implements JWebSocketController
 			)
 		);
 
-		// Init database
-		jimport( 'joomla.database.database' );
-		$config = 			array(
-			'driver' => $this->get('dbtype'),
-			'host' => $this->get('host'),
-			'user' => $this->get('user'),
-			'password' => $this->get('password'),
-			'database' => $this->get('db'),
-			'prefix' => $this->get('dbprefix')
-		);
-		$this->dbo = JDatabase::getInstance($config);
+		$user = $this->get('user');
+		$password = $this->get('password');
+
+		if (isset($user) && isset($password) ) {
+
+			// Init database
+			jimport( 'joomla.database.database' );
+			$config = 			array(
+				'driver' => $this->get('dbtype'),
+				'host' => $this->get('host'),
+				'user' => $user,
+				'password' => $password,
+				'database' => $this->get('db'),
+				'prefix' => $this->get('dbprefix')
+			);
+			$this->dbo = JDatabase::getInstance($config);
+
+		}
 	}
 
 	/**
