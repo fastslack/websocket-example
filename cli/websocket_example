@@ -4,7 +4,7 @@
  * @version       $Id: 
  * @package       Matware
  * @subpackage    WebSocketExample
- * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
+ * @copyright     Copyright (C) 1996 - 2014 Matware - All rights reserved.
  * @author        Matias Aguirre
  * @email         maguirre@matware.com.ar
  * @link          http://www.matware.com.ar/
@@ -13,36 +13,36 @@
 define( '_JEXEC', 1 );
 
 // Bootstrap the application.
-require '../bootstrap.php';
+require dirname(dirname(__FILE__)).'/bootstrap.php';
 
-final class WebSocketExample extends JCli implements JWebSocketController 
+final class WebSocketExample extends JApplicationCli implements MWebsocketController 
 {
 	/**
 	* Address
 	*
-	* @var char
-	* @since 11.3
+	* @var string
+	* @since 1.0
 	*/
 	public $address = '0.0.0.0';
 	/**
 	* Port
 	*
-	* @var char
-	* @since 11.3
+	* @var int
+	* @since 1.0
 	*/
 	public $port = 8080;
 	/**
 	* A database object for the application to use.
 	*
 	* @var JDatabase
-	* @since 11.3
+	* @since 1.0
 	*/
-	protected $dbo = null;
+	protected $_db = null;
 	/**
 	* A protocol object
 	*
 	* @var JDatabase
-	* @since 11.3
+	* @since 1.0
 	*/
 	private $_protocol;
 
@@ -53,7 +53,7 @@ final class WebSocketExample extends JCli implements JWebSocketController
 	 *
 	 * @since   11.3
 	 */
-	public function __construct()
+	public function __construct(JRegistry $options = null)
 	{
 		// Call the parent __construct method so it bootstraps the application class.
 		parent::__construct();
@@ -67,24 +67,11 @@ final class WebSocketExample extends JCli implements JWebSocketController
 			)
 		);
 
-		$user = $this->get('user');
-		$password = $this->get('password');
+		// Set the custom options if exists
+		$this->options = isset($options) ? $options : new JRegistry(new JConfig);
 
-		if (isset($user) && isset($password) ) {
-
-			// Init database
-			jimport( 'joomla.database.database' );
-			$config = 			array(
-				'driver' => $this->get('dbtype'),
-				'host' => $this->get('host'),
-				'user' => $user,
-				'password' => $password,
-				'database' => $this->get('db'),
-				'prefix' => $this->get('dbprefix')
-			);
-			$this->dbo = JDatabase::getInstance($config);
-
-		}
+		// Creating first dabatase instance
+		$this->_db = JFactory::getDBO();
 	}
 
 	/**
@@ -103,7 +90,7 @@ final class WebSocketExample extends JCli implements JWebSocketController
 		$this->out('Starting server...');
 
 		// Start the server
-		JWebSocket::getInstance($this)->start();
+		MWebSocket::getInstance($this)->start();
 	}
 
 	/**
@@ -164,7 +151,7 @@ final class WebSocketExample extends JCli implements JWebSocketController
 	 * This is needed for the application to send data back
 	 * to the client
 	 */
-	function setProtocol(JWebSocketProtocol $protocol)
+	function setProtocol(MWebSocketProtocol $protocol)
 	{
 		$this->_protocol = $protocol;
 	}
@@ -175,7 +162,7 @@ try
 {
 	// Instantiate the application object, passing the class name to JCli::getInstance
 	// and use chaining to execute the application.
-	JCli::getInstance('WebSocketExample')->execute();
+	JApplicationCli::getInstance('WebSocketExample')->execute();
 }
 catch (Exception $e)
 {
