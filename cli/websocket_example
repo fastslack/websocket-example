@@ -41,7 +41,7 @@ final class WebSocketExample extends JApplicationCli implements MWebsocketContro
 	/**
 	* A protocol object
 	*
-	* @var JDatabase
+	* @var MWebsocketProtocol
 	* @since 1.0
 	*/
 	private $_protocol;
@@ -51,7 +51,7 @@ final class WebSocketExample extends JApplicationCli implements MWebsocketContro
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since 1.0
 	 */
 	public function __construct(JRegistry $options = null)
 	{
