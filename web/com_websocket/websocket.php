@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
  
 // Get an instance of the controller prefixed by WebSocket
-$controller = JController::getInstance('WebSocket');
+$controller = JControllerLegacy::getInstance('WebSocket');
  
 // Perform the Request task
 $controller->execute(JRequest::getCmd('task'));

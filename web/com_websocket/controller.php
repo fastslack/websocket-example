@@ -18,19 +18,19 @@ jimport('joomla.application.component.controller');
 /**
  * General Controller of WebSocket component
  */
-class WebSocketController extends JController
+class WebSocketController extends JControllerLegacy
 {
 	/**
 	 * display task
 	 *
 	 * @return void
 	 */
-	function display($cachable = false) 
+	function display($cachable = false, $urlparams = array()) 
 	{
 		// set default view if not set
 		JRequest::setVar('view', JRequest::getCmd('view', 'websockets'));
  
 		// call parent behavior
-		parent::display($cachable);
+		parent::display($cachable, $urlparams);
 	}
 }

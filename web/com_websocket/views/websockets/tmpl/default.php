@@ -3,7 +3,7 @@
  * @version       $Id: 
  * @package       Matware
  * @subpackage    WebSocketExample
- * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
+ * @copyright     Copyright (C) 1996 - 2014 Matware - All rights reserved.
  * @author        Matias Aguirre
  * @email         maguirre@matware.com.ar
  * @link          http://www.matware.com.ar/
@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted Access');
  
 // Load mootools behavior
-JHtml::_('behavior.mootools');
+JHtml::_('behavior.framework');
 
 // get document to add scripts
 $document	= JFactory::getDocument();

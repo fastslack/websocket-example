@@ -3,7 +3,7 @@
  * @version       $Id: 
  * @package       Matware
  * @subpackage    WebSocketExample
- * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
+ * @copyright     Copyright (C) 1996 - 2014 Matware - All rights reserved.
  * @author        Matias Aguirre
  * @email         maguirre@matware.com.ar
  * @link          http://www.matware.com.ar/
@@ -12,13 +12,10 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
-jimport('joomla.application.component.view');
- 
 /**
  * WebSockets View
  */
-class WebSocketViewWebSockets extends JView
+class WebSocketViewWebSockets extends JViewLegacy
 {
 	/**
 	 * WebSockets view display method

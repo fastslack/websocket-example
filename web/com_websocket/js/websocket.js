@@ -34,12 +34,12 @@ var WebSocketConnector = new Class({
 
 			try {
 
-				if (window.WebSocket) { // (window.MozWebSocket)
-					this.socket = new WebSocket(this.uri);
-				} else if (typeof MozWebSocket != "undefined") {
+				if (typeof MozWebSocket != "undefined") {
 					this.socket = new MozWebSocket(this.uri);
+				}else if (window.WebSocket) { // (window.MozWebSocket)
+					this.socket = new WebSocket(this.uri);
 				}
-			
+
 				this.socket.onopen = function() {
 					this.serverLog('Socket opening: '+this.socket.readyState);
 				}.bind(this);
